@@ -135,8 +135,9 @@ ProductCollection p = DB.Select()
 ```csharp
 ProductCollection products = Select.AllColumnsFrom<Product>()
     .WhereExpression("categoryID").IsEqualTo(5)
-    .And("productid").IsGreaterThan(10)
-    .OrExpression("categoryID").IsEqualTo(2).And("productID").IsBetweenAnd(2, 5)
+      .And("productid").IsGreaterThan(10)
+      .OrExpression("categoryID").IsEqualTo(2)
+      .And("productID").IsBetweenAnd(2, 5)
     .ExecuteAsCollection<ProductCollection>();
 ```
 
@@ -144,10 +145,10 @@ ProductCollection products = Select.AllColumnsFrom<Product>()
 
 ```csharp
 products = Select.AllColumnsFrom<Product>()
-     .WhereExpression("categoryID").IsEqualTo(5)
-.And("productid").IsGreaterThan(10)
-        .Or("categoryID").IsEqualTo(2)
-.AndExpression("productID").IsBetweenAnd(2, 5)
+            .WhereExpression("categoryID").IsEqualTo(5)
+              .And("productid").IsGreaterThan(10)
+              .Or("categoryID").IsEqualTo(2)
+            .AndExpression("productID").IsBetweenAnd(2, 5)
           .ExecuteAsCollection<ProductCollection>();
 ```
 
@@ -156,12 +157,12 @@ products = Select.AllColumnsFrom<Product>()
 ```csharp
 ProductCollection products = Select.AllColumnsFrom<Product>()
            .OpenExpression()
-          .Where("categoryID").IsEqualTo(5)
-          .And("productid").IsGreaterThan(10)
-          .CloseExpression()
-          .Or("categoryID").IsEqualTo(2)
-          .AndExpression("productID").IsBetweenAnd(2, 5)
-     .ExecuteAsCollection<ProductCollection>();
+              .Where("categoryID").IsEqualTo(5)
+              .And("productid").IsGreaterThan(10)
+           .CloseExpression()
+           .Or("categoryID").IsEqualTo(2)
+           .AndExpression("productID").IsBetweenAnd(2, 5)
+           .ExecuteAsCollection<ProductCollection>();
 ```
 
 # Simple Paged Query 
@@ -184,14 +185,15 @@ SubSonic.SqlQuery q = new Select("ProductId", "ProductName", "CategoryName")
 # Paged View
 
 ```csharp
-SubSonic.SqlQuery q = new Select().From(Invoice.Schema).Paged(1, 20);
+SubSonic.SqlQuery q = new Select()
+    .From(Invoice.Schema).Paged(1, 20);
 ```
 
 # Simple IN Query 
 
 ```csharp
 int records = new Select().From(Product.Schema)
-        .Where("productid").In(1, 2, 3, 4, 5)
+       .Where("productid").In(1, 2, 3, 4, 5)
        .GetRecordCount();
 Assert.IsTrue(records == 5);
 ```
@@ -201,9 +203,10 @@ Assert.IsTrue(records == 5);
 ```csharp
 int records = Select.AllColumnsFrom()
     .Where("productid")
-    .In(new Select("productid").From(Product.Schema)
-            .Where("categoryid").IsEqualTo(5))
-                .GetRecordCount();
+    .In(new Select("productid")
+              .From(Product.Schema)
+              .Where("categoryid").IsEqualTo(5))
+    .GetRecordCount();
 ```
 
 # Using Multiple INs 
