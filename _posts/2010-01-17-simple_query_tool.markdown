@@ -6,9 +6,23 @@ title: "Simple Query Tool"
 # Simple Query Tool
 
 SubSonic comes with a variety of ways to talk to your database. Originally we had a query tool that was a little verbose and somewhat difficult to use. That has since been refined to use a "fluent interface" - which is the chaining of methods to be, essentially, human-readable.  These examples are specific to SubSonic 2 see 
-;  Simple Select with typed columns 
-int records = new Select(Product.ProductIDColumn, Product.ProductNameColumn).                 From<Product>().GetRecordCount();             Assert.IsTrue(records == 77);   Returning a Single object 
-Product p = new Select().From<Product>().                Where("ProductID").IsEqualTo(1).ExecuteSingle<Product>();             Assert.IsNotNull(p); Returning a Single object using generated strongly typed variables 
+;  
+
+# Simple Select with typed columns 
+
+```csharp
+int records = new Select(Product.ProductIDColumn, Product.ProductNameColumn).
+                    From<Product>().GetRecordCount();
+Assert.IsTrue(records == 77);   Returning a Single object 
+Product p = new Select()
+                  .From<Product>()
+                  . Where("ProductID").IsEqualTo(1)
+                  .ExecuteSingle<Product>();
+Assert.IsNotNull(p);
+```
+
+# Returning a Single object using generated strongly typed variables 
+
 Product p = new Select().From<Product>().                Where(Product.Columns.ProductID).IsEqualTo(1).ExecuteSingle<Product>();             Assert.IsNotNull(p);  Returning all columns 
 int records = new Select().From("Products").GetRecordCount();             Assert.IsTrue(records == 77); Simple Where 
 int records = new Select().From("Products").                 Where("categoryID").IsEqualTo(5).GetRecordCount();             Assert.AreEqual(7, records);  Simple Where with And (as Collection) 
